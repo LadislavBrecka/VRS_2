@@ -28,6 +28,7 @@ int main(void)
    * DO NOT WRITE TO THE WHOLE REGISTER!!!
    *
    * Write to bits, that are meant for change.
+   * test comment
    */
 
   /*Enables clock for GPIO port B*/
