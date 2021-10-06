@@ -60,19 +60,19 @@ int main(void)
 	  if(BUTTON_GET_STATE)
 	  {
 		  // 0.25s delay
-		  LL_mDelay(250);
+//		  LL_mDelay(250);
 		  LED_ON;
 		  // 0.25s delay
-		  LL_mDelay(250);
-		  LED_OFF;
+//		  LL_mDelay(250);
+//		  LED_OFF;
 	  }
 	  else
 	  {
 		  // 1s delay
-		  LL_mDelay(1000);
-		  LED_ON;
+//		  LL_mDelay(1000);
+//		  LED_ON;
 		  // 1s delay
-		  LL_mDelay(1000);
+//		  LL_mDelay(1000);
 		  LED_OFF;
 	  }
   }
