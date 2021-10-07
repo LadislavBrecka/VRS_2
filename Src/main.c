@@ -32,7 +32,7 @@ int main(void)
   //Systick init
   LL_Init1msTick(8000000);
   LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
-  LL_SetSystemCoreClock(8000000);	
+  LL_SetSystemCoreClock(8000000);
 
   /*
    * TASK - configure MCU peripherals so that button state can be read and LED will blink.
@@ -46,36 +46,52 @@ int main(void)
 
 
   /* Enable clock for GPIO port A*/
-
-	//type your code for GPIOA clock enable here:
+  *((volatile uint32_t *) (uint32_t)(0x40021000 + 0x00000014U)) |= (uint32_t)(1 << 17);
 
 
   /* GPIOA pin 3 and 4 setup */
+  // Set output mode for pin 4
+  *((volatile uint32_t *)((uint32_t)0x48000000)) &= ~(uint32_t)(0x3 << 8);
+  *((volatile uint32_t *)((uint32_t)0x48000000)) |= (uint32_t)(1 << 8);
+  //Set input mode for pin 3
+  *((volatile uint32_t *)((uint32_t)0x48000000)) &= ~(uint32_t)(0x3 << 6);
 
-	//type your code for GPIOA pins setup here:
+  /*GPIO OTYPER register*/
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x04U))) &= ~(1 << 4);
 
+  /*GPIO OSPEEDR register*/
+  //Set Low speed for GPIOA pin 4
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x08U))) &= ~(0x3 << 8);
 
-  while (1)
-  {
-	  if(BUTTON_GET_STATE)
-	  {
-		  // 0.25s delay
-//		  LL_mDelay(250);
-		  LED_ON;
-		  // 0.25s delay
-//		  LL_mDelay(250);
-//		  LED_OFF;
-	  }
-	  else
-	  {
-		  // 1s delay
-//		  LL_mDelay(1000);
+  /*GPIO PUPDR register, reset*/
+  //Set pull up for GPIOA pin 3 (input)
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x0CU))) &= ~(uint32_t)(0x3 << 6);
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x0CU))) |= (1 << 6);
+  //Set no pull for GPIOA pin 4
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x0CU))) &= ~(0x3 << 8);
+
+  LED_ON;
+//  while (1)
+//  {
+//	  if(BUTTON_GET_STATE)
+//	  {
+//		  // 0.25s delay
+////		  LL_mDelay(250);
 //		  LED_ON;
-		  // 1s delay
-//		  LL_mDelay(1000);
-		  LED_OFF;
-	  }
-  }
+//		  // 0.25s delay
+////		  LL_mDelay(250);
+////		  LED_OFF;
+//	  }
+//	  else
+//	  {
+//		  // 1s delay
+////		  LL_mDelay(1000);
+////		  LED_ON;
+//		  // 1s delay
+////		  LL_mDelay(1000);
+//		  LED_OFF;
+//	  }
+//  }
 
 }
 
