@@ -50,6 +50,7 @@ int main(void)
 
 
   /* GPIOA pin 3 and 4 setup */
+  /*GPIO MODER register*/
   // Set output mode for pin 4
   *((volatile uint32_t *)((uint32_t)0x48000000)) &= ~(uint32_t)(0x3 << 8);
   *((volatile uint32_t *)((uint32_t)0x48000000)) |= (uint32_t)(1 << 8);
@@ -70,28 +71,27 @@ int main(void)
   //Set no pull for GPIOA pin 4
   *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x0CU))) &= ~(0x3 << 8);
 
-  LED_ON;
-//  while (1)
-//  {
-//	  if(BUTTON_GET_STATE)
-//	  {
-//		  // 0.25s delay
-////		  LL_mDelay(250);
-//		  LED_ON;
-//		  // 0.25s delay
-////		  LL_mDelay(250);
-////		  LED_OFF;
-//	  }
-//	  else
-//	  {
-//		  // 1s delay
-////		  LL_mDelay(1000);
-////		  LED_ON;
-//		  // 1s delay
-////		  LL_mDelay(1000);
-//		  LED_OFF;
-//	  }
-//  }
+  while (1)
+  {
+	  if(BUTTON_GET_STATE)
+	  {
+		  // 0.25s delay
+		  LL_mDelay(250);
+		  LED_ON;
+		  // 0.25s delay
+		  LL_mDelay(250);
+		  LED_OFF;
+	  }
+	  else
+	  {
+		  // 1s delay
+		  LL_mDelay(1000);
+		  LED_ON;
+		  // 1s delay
+		  LL_mDelay(1000);
+		  LED_OFF;
+	  }
+  }
 
 }
 
