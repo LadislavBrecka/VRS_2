@@ -71,23 +71,15 @@ int main(void)
   //Set no pull for GPIOA pin 4
   GPIOA_PUPDR_REG &= ~(0x3 << 8);
 
-  uint8_t led_state = 0;
 
   while (1)
   {
-	  uint8_t button_state = BUTTON_GET_STATE;
-	  if(edgeDetect(button_state, (uint8_t)5U) == RISE)
+	  if(edgeDetect(BUTTON_GET_STATE, (uint8_t)5U) == RISE)
 	  {
-		  if(!(led_state))
-		  {
+		  if(!(LED_STATE))
 			  LED_ON;
-			  led_state = 1;
-		  }
 		  else
-		  {
 			  LED_OFF;
-			  led_state = 0;
-		  }
 	  }
   }
 }
@@ -99,6 +91,8 @@ enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples)
 	if(pin_state)
 		while(1)
 		{
+			// 1ms delay
+			LL_mDelay(1);
 			if(!BUTTON_GET_STATE)
 			{
 				num_states += (uint8_t)1U;
@@ -113,6 +107,8 @@ enum EDGE_TYPE edgeDetect(uint8_t pin_state, uint8_t samples)
 	{
 		while(1)
 		{
+			// 1ms delay
+			LL_mDelay(1);
 			if(BUTTON_GET_STATE)
 			{
 				num_states += (uint8_t)1U;
